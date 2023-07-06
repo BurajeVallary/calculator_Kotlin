@@ -1,61 +1,49 @@
-package com.example.calculator
-
-import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.calculator.databinding.ActivityMainBinding
+
 class MainActivity : AppCompatActivity() {
-    var etfirstvalue: EditText? = null
-    var etsecondvalue: EditText? = null
-    var btnadd: Button? = null
-    var btnsub: Button? = null
-    var btnmultiply: Button? = null
-    var btnmodulas: Button? = null
-    var num1: Double? = null
-    var num2: Double? = null
-    var tvresult: TextView? = null
-    @SuppressLint("MissingInflatedId")
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        etfirstvalue = findViewById(R.id.etfirstvalue)
-        etsecondvalue = findViewById(R.id.etsecondvalue)
-        btnadd = findViewById(R.id.btnadd)
-        btnsub = findViewById(R.id.btnsub)
-        btnmultiply = findViewById(R.id.btnmultiply )
-        btnmodulas = findViewById(R.id.btnmodulas)
-        tvresult = findViewById(R.id.tvresults)
-        Clicklistener()
+        binding=ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding. btnAddition.setOnClickListener {
+            calculations('+')
+        }
+        binding. btnSubtraction.setOnClickListener {
+            calculations('-')
+        }
+        binding .btnMultiplication.setOnClickListener {
+            calculations('x')
+        }
+        binding. btnDivision.setOnClickListener {
+            calculations('/')
+        }
+
+
     }
 
-    fun Clicklistener() {
-        btnadd!!.setOnClickListener {
-            num1 = etfirstvalue!!.text.toString().toDouble()
-            num2 = etsecondvalue!!.text.toString().toDouble()
-            val result = num1!! + num2!!
-            tvresult!!.text = result.toString()
+    fun calculations(operator: Char) {
+        val num1 =binding.etNum1.text.toString().toDouble()
+        val num2 =binding.etNum2.text.toString().toDouble()
+        val answer = when (operator) {
+            '+' -> num1 + num2
+            '-' -> num1 - num2
+            'x' -> num1 * num2
+            '/' -> num1 / num2
+            else -> throw IllegalArgumentException("Invalid operator:$operator")
+
+
         }
-        btnsub!!
-            .setOnClickListener {
-                num1 = etfirstvalue!!.text.toString().toDouble()
-                num2 = etsecondvalue!!.text.toString().toDouble()
-                val result = num1!! - num2!!
-                tvresult!!.text = result.toString()
-            }
-        btnmultiply!!.setOnClickListener {
-            num1 = etfirstvalue!!.text.toString().toDouble()
-            num2 = etsecondvalue!!.text.toString().toDouble()
-            val result = num1!! * num2!!
-            tvresult!!.text = result.toString()
-        }
-        btnmodulas!!.setOnClickListener {
-            num1 = etfirstvalue!!.text.toString().toDouble()
-            num2 = etsecondvalue!!.text.toString().toDouble()
-            val result = num1!! / num2!!
-            tvresult!!.text = result.toString()
-        }
+        binding. tvAnswer.text = answer.toString()
     }
 }
+
+
+
+
+
 
